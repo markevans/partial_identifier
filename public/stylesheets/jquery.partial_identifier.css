@@ -1,0 +1,30 @@
+.jpi_message_box {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #c88;
+  color: #fff;
+  font-weight: bold;
+  font-size: 20px;
+  z-index: 1001;
+}
+
+.jpi_message_box ul {
+  list-style-type: none;
+  margin: 0;
+}
+
+.jpi_message_box li {
+  padding: 5px;
+}
+
+.jpi_message_box li a {
+  display: block;
+  padding: 5px;
+  color: #fff;
+}
+
+.jpi_message_box li a:hover {
+  background-color: #eee;
+  color: #88c;
+}

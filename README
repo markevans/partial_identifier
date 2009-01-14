@@ -1,0 +1,13 @@
+PartialIdentifier
+=================
+
+This plugin modifies the standard render method, so that in development mode, you can link back to textmate...TODO
+
+
+Example
+=======
+
+Example goes here.
+
+
+Copyright (c) 2008 [Mark Evans], released under the MIT license
