@@ -1,6 +1,6 @@
 module PartialIdentifier
 
-  self << class
+  class << self
     attr_accessor :js_url_path, :css_url_path, :js_file_path, :css_file_path
   end
 
