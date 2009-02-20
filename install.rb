@@ -19,7 +19,8 @@ asset_dir = "#{File.dirname(__FILE__)}/public"
 end
 
 puts "**************"
-puts "If you need the js/css files to be in a different place, you can modify the following config attributes:"
+puts
+puts "If you need the js/css files to be in a different place than above, you can modify the following config attributes:"
 puts " PartialIdentifier.js_file_path\n PartialIdentifier.css_file_path\n PartialIdentifier.js_url_path\n PartialIdentifier.css_url_path"
 puts
 puts "**************"
