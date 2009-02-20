@@ -15,7 +15,7 @@ Usage
 
 1. Install the plugin
 
-    script plugin install git://github.com/markevans/partial_identifier.git
+    script/plugin install git://github.com/markevans/partial_identifier.git
 
 2. Browse your app in development mode (after restarting the server)
    Press Shift + Ctrl + P to toggle the partial identifier on.
