@@ -1,9 +1,13 @@
 module PartialIdentifier
 
-  JPI_JS_PATH  = "/javascripts"
-  JPI_CSS_PATH = "/stylesheets"
+  self << class
+    attr_accessor :js_url_path, :css_url_path, :js_file_path, :css_file_path
+  end
+
+  js_url_path  = "/javascripts"
+  css_url_path = "/stylesheets"
   
-  JPI_JS_FILE  = "#{RAILS_ROOT}/public#{JPI_JS_PATH}"
-  JPI_CSS_FILE = "#{RAILS_ROOT}/public#{JPI_CSS_PATH}"
+  js_file_path  = "#{RAILS_ROOT}/public#{js_url_path}"
+  css_file_path = "#{RAILS_ROOT}/public#{css_url_path}"
   
 end
