@@ -1,5 +1,5 @@
-PartialIdentifier
-=================
+Partial Identifier
+==================
 
 Ever been checking your development rails app in the browser and wanted to know which ERB file a part of your page is from?
 Wanted to know the rendered file hierarchy all the way up to the layout?
@@ -7,11 +7,11 @@ Wanted to quickly open one of those files in textmate?
 
 Now you can!! And it's easy peasy!
 
-The only requirement is that you're using jquery in your rails app.
+The only requirement is that you're using [jquery](http://jquery.com/) in your rails app.
 
 
 Usage
-=======
+=====
 
 1. Install the plugin
 
