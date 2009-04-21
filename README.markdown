@@ -34,20 +34,6 @@ Notes
 - It is unobtrusive to the page DOM until you activate it with Shift+Ctrl+P.
 - I found one of my sites actually broke when using it - it may not work for every site
 
-Tweaks
-======
-
-By default the plugin installs the js/css files in the rails default directory.
-If this is not correct, change one of the following in development.rb:
-   
-    PartialIdentifier.js_url_path   # default is "/javascripts"
-    PartialIdentifier.css_url_path  # default is "/stylesheets"
-
-    PartialIdentifier.js_file_path  # default is "#{RAILS_ROOT}/public#{js_url_path}"
-    PartialIdentifier.css_file_path # default is "#{RAILS_ROOT}/public#{css_url_path}"
-
-
-
 TODO
 ====
 

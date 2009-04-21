@@ -11,8 +11,8 @@ class ActionView::Template
 
     # Add the js/css files if we have a <head> tag
     if file_contents.match('</head>')
-      js_include  = %(<script type="text/javascript" charset="utf-8" src="#{PartialIdentifier.js_url_path}/jquery.partial_identifier.js"></script>)
-      css_include = %(<link rel="stylesheet" href="#{PartialIdentifier.css_url_path}/jquery.partial_identifier.css" type="text/css" media="screen" title="no title" charset="utf-8" />)
+      js_include  = %(<script type="text/javascript" charset="utf-8" src="#{PartialIdentifier::URL_PATH}/jquery.partial_identifier.js"></script>)
+      css_include = %(<link rel="stylesheet" href="#{PartialIdentifier::URL_PATH}/jquery.partial_identifier.css" type="text/css" media="screen" title="no title" charset="utf-8" />)
       file_contents.sub!('</head>',"\n#{js_include}\n#{css_include}\n</head>")
     end
 
