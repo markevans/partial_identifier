@@ -4,10 +4,8 @@ class ActionView::Template
     # This monkey patch unobtrusively wraps any rendered files in a comment, which will be used by javascript
     # to create divs (when requested) for identifying the source file for each part of the page
     file_contents = File.read(self.filename)
-    tag_open  = '<!-- --{JPI}'
-    tag_close = '{JPI}!-- -->'
-    div_open = %(#{tag_open}div class="jpi_rendered_template" id="#{self.filename}" #{tag_close})
-    div_close = "#{tag_open}/div#{tag_close}"
+    start_div = %(<div class="_jpi_marker _jpi_start" id="#{self.filename}" style="display:none;" ></div>)
+    end_div = %(<div class="_jpi_marker _jpi_end" id="#{self.filename}" style="display:none;"></div>)
 
     # Add the js/css files if we have a <head> tag
     if file_contents.match('</head>')
@@ -18,12 +16,12 @@ class ActionView::Template
 
     # If the file contains a body tag, make sure the div is inside this for valid XHTML...
     if file_contents.match('<body>') && file_contents.match('</body>')
-      file_contents.sub! "<body>" , "<body>#{div_open}"
-      file_contents.sub! "</body>", "#{div_close}</body>"
+      file_contents.sub! "<body>" , "<body>#{start_div}"
+      file_contents.sub! "</body>", "#{end_div}</body>"
       @source ||= file_contents
     # ...otherwise we can wrap it around the entire contents
     else
-      @source ||= div_open + file_contents + div_close
+      @source ||= start_div + file_contents + end_div
     end
   end
 

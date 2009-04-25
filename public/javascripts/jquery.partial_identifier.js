@@ -1,47 +1,82 @@
 ;(function($) {
 
-  var jpi_selector = 'div.jpi_rendered_template'
   var jpi_message_box_class = 'jpi_message_box'
   var jpi_message_box_selector = '.'+jpi_message_box_class
-  var jpi_selected_class = 'jpi_selected'
   var jpi_on = false;
-  var jpi_on_string = '><!--JPI--><'
-  var jpi_off_string = '{JPI}'
+
+  $.count = function(array, arg){
+    if(typeof(arg) == 'function') callback = arg;
+    else if(typeof(arg) == 'undefined') callback = function(){return true};
+    else callback = function(n){return n == arg};
+    
+    return $.grep(array, callback).length
+  };
 
   $.fn.extend({
+    
+    isStartMarker : function(){
+      return $(this).hasClass('_jpi_start')
+    },
+    
+    isEndMarker : function(){
+      return $(this).hasClass('_jpi_end')
+    },
+    
+    // The following two functions are stolen from 
+    // http://stackoverflow.com/questions/322912/jquery-to-find-all-previous-elements-that-match-an-expression
+    
+    reverse : function(){
+      return this.pushStack(this.get().reverse(), arguments);
+    },
+    
+    // Get ALL previous elements matching the expression - not just siblings
+    prevALL : function(matchExpr) {
+        // get all the elements in the body, including the body.
+        var all = $('body').find('*').andSelf();
 
-    templateStackContainers : function(){
-      if( $(this).is(jpi_selector) ){
-        return $(this).children().parents(jpi_selector)
-      } else {
-        return $(this).parents(jpi_selector)
-      }
+        // slice the 'all' object to only include previous elements
+        var allPrev = all.slice(0, all.index(this)).reverse();
+        
+        // filter the matches if specified
+        if (matchExpr) allPrev = allPrev.filter(matchExpr);
+
+        return allPrev;
+    },
+    
+    //////////////////////
+    
+    partialStack : function(){
+      // Get all the previous opened and closed partials
+      var opened_partials = $(this).prevALL('._jpi_start').map(function(){return this.id});
+      var closed_partials = $(this).prevALL('._jpi_end').map(function(){return this.id});
+      // The stack is the opened partials, minus any closed ones
+      var stack = [];
+      var num_opened = null;
+      var num_closed = null;
+      $.each(opened_partials, function(){
+        num_opened = $.count(opened_partials, this);
+        num_closed = $.count(closed_partials, this);
+        // If more of that partial opened than closed, and not already in stack
+        if(num_opened > num_closed && $.inArray(this,stack) == -1) stack.push(this);
+      });
+      // Go up a level
+      return stack;
     },
   
-    templateStackAsList : function(){
-      var lis = $(this).templateStackContainers().map(function(){
-        var file_parts = this.id.split('/')
+    partialStackAsList : function(){
+      var lis = $.map($(this).partialStack(), function(partial_path){
+        var file_parts = partial_path.split('/')
         var text = file_parts[file_parts.length-1]
-        return '<li><a href="txmt://open/?url=file://' + this.id + '">' + text + '</a></li>'
-      }).get().reverse().join("\n")
+        return '<li><a href="txmt://open/?url=file://' + partial_path + '">' + text + '</a></li>'
+      }).reverse().join("\n")
       return '<ul>' + lis + '</ul>'
     }
   
   });
 
   var updateTemplateList = function(evt){
-    $(jpi_message_box_selector).html( $(evt.target).templateStackAsList() )
+    $(jpi_message_box_selector).html( $(evt.target).partialStackAsList() )
     return false
-  }
-  
-  var addHoverClass = function(evt){
-    $(evt.target).templateStackContainers().eq(0).addClass(jpi_selected_class)
-    evt.stopPropagation()
-  }
-  
-  var removeHoverClass = function(evt){
-    $(evt.target).templateStackContainers().eq(0).removeClass(jpi_selected_class)
-    evt.stopPropagation()
   }
   
   var toggleJpi = function(){
@@ -49,12 +84,8 @@
     if(jpi_on){ // Turn OFF
       
       $(jpi_message_box_selector).remove()
-      $(jpi_selector).unbind('click'    , updateTemplateList)
-      $(jpi_selector).unbind('mouseover', addHoverClass)
-      $(jpi_selector).unbind('mouseout' , removeHoverClass)
+      $('*').click(updateTemplateList)
       
-      $('body').html( $('body').html().replace(jpi_on_string, jpi_off_string, 'g') )
-
       $('body').removeClass('jpi_on')
 
       jpi_on = false
@@ -63,11 +94,7 @@
       
       $('body').addClass('jpi_on')
       
-      $('body').html( $('body').html().replace(jpi_off_string, jpi_on_string, 'g') )
-      
-      $(jpi_selector).bind('click'    , updateTemplateList)
-      $(jpi_selector).bind('mouseover', addHoverClass)
-      $(jpi_selector).bind('mouseout' , removeHoverClass)
+      $('*').click(updateTemplateList)
       
       // Notify that partial identifier is on
       $('body').append('<div class="' + jpi_message_box_class + '"></div>')
