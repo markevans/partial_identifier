@@ -7,15 +7,14 @@ require 'fileutils'
 puts "Making sure directory #{PartialIdentifier::FILE_PATH} exists"
 FileUtils.mkdir_p(PartialIdentifier::FILE_PATH)
 
-asset_dir = "#{File.dirname(__FILE__)}/public"
-{
-  "#{asset_dir}/javascripts/jquery.partial_identifier.js"  => PartialIdentifier::FILE_PATH,
-  "#{asset_dir}/stylesheets/jquery.partial_identifier.css" => PartialIdentifier::FILE_PATH
-}.each do |from, to|
+%w{partial_identifier.js partial_identifier.css}.each do |file|
   
-  puts "Copying #{File.basename(from)} to #{to}..."
+  src = "#{File.dirname(__FILE__)}/public/partial_identifier/#{file}"
+  dest = PartialIdentifier::FILE_PATH
+  
+  puts "Copying #{File.basename(src)} to #{dest}..."
   begin
-    FileUtils.mv from, to
+    FileUtils.mv src, dest
     puts "...done"
   rescue
     puts '...failed. Please copy this file manually from the plugin to the appropriate place.'
@@ -26,7 +25,7 @@ end
 puts "**************"
 puts
 puts "If you have svn/git, you may want to add"
-puts "    **/partial_identifier*"
+puts "    #{PartialIdentifier::FILE_PATH.sub(RAILS_ROOT,'').sub(%r(^/),'')}"
 puts " to your ignore file"
 puts
 puts "**************"

@@ -9,9 +9,10 @@ class ActionView::Template
 
     # Add the js/css files if we have a <head> tag
     if file_contents.match('</head>')
-      js_include  = %(<script type="text/javascript" charset="utf-8" src="#{PartialIdentifier::URL_PATH}/jquery.partial_identifier.js"></script>)
-      css_include = %(<link rel="stylesheet" href="#{PartialIdentifier::URL_PATH}/jquery.partial_identifier.css" type="text/css" media="screen" title="no title" charset="utf-8" />)
-      file_contents.sub!('</head>',"\n#{js_include}\n#{css_include}\n</head>")
+      jquery_include = %(<script type="text/javascript" charset="utf-8" src="#{PartialIdentifier::URL_PATH}/jquery-1.3.2.min.js"></script>)
+      js_include  = %(<script type="text/javascript" charset="utf-8" src="#{PartialIdentifier::URL_PATH}/partial_identifier.js"></script>)
+      css_include = %(<link rel="stylesheet" href="#{PartialIdentifier::URL_PATH}/partial_identifier.css" type="text/css" media="screen" title="no title" charset="utf-8" />)
+      file_contents.sub!('</head>',"\n#{jquery_include}\n#{js_include}\n#{css_include}\n</head>")
     end
 
     # If the file contains a body tag, make sure the div is inside this for valid XHTML...
