@@ -1,7 +1,5 @@
 ;(function($) {
 
-  var jpi_message_box_class = 'jpi_message_box'
-  var jpi_message_box_selector = '.'+jpi_message_box_class
   var jpi_on = false;
 
   $.count = function(array, arg){
@@ -14,15 +12,7 @@
 
   $.fn.extend({
     
-    isStartMarker : function(){
-      return $(this).hasClass('_jpi_start')
-    },
-    
-    isEndMarker : function(){
-      return $(this).hasClass('_jpi_end')
-    },
-    
-    // The following two functions are stolen from 
+    // The following two functions are taken (modified) from
     // http://stackoverflow.com/questions/322912/jquery-to-find-all-previous-elements-that-match-an-expression
     
     reverse : function(){
@@ -54,10 +44,11 @@
       var num_opened = null;
       var num_closed = null;
       $.each(opened_partials, function(){
-        num_opened = $.count(opened_partials, this);
-        num_closed = $.count(closed_partials, this);
+        partial_path = String(this);
+        num_opened = $.count(opened_partials, partial_path);
+        num_closed = $.count(closed_partials, partial_path);
         // If more of that partial opened than closed, and not already in stack
-        if(num_opened > num_closed && $.inArray(this,stack) == -1) stack.push(this);
+        if(num_opened > num_closed && $.inArray(partial_path,stack) == -1) stack.push(partial_path);
       });
       // Go up a level
       return stack;
@@ -67,39 +58,46 @@
       var lis = $.map($(this).partialStack(), function(partial_path){
         var file_parts = partial_path.split('/')
         var text = file_parts[file_parts.length-1]
-        return '<li><a href="txmt://open/?url=file://' + partial_path + '">' + text + '</a></li>'
+        return '<li><a class="_jpi_link" href="txmt://open/?url=file://' + partial_path + '">' + text + '</a></li>'
       }).reverse().join("\n")
       return '<ul>' + lis + '</ul>'
     }
   
   });
 
+  var display = function(message){
+    if($('#_jpi_message_box').length == 0) {
+      $('body').append('<div id="_jpi_message_box"></div>')
+    }
+    $('#_jpi_message_box').html(message)
+  }
+  
+  var turnOffLinks = function(){
+    return false;
+  }
+  
   var updateTemplateList = function(evt){
-    $(jpi_message_box_selector).html( $(evt.target).partialStackAsList() )
-    return false
+    display( $(evt.target).partialStackAsList() );
+    return true;
   }
   
   var toggleJpi = function(){
     
     if(jpi_on){ // Turn OFF
       
-      $(jpi_message_box_selector).remove()
-      $('*').click(updateTemplateList)
-      
-      $('body').removeClass('jpi_on')
-
-      jpi_on = false
+      display('Partial Identifier Off');
+      $('#_jpi_message_box').hide('slow').remove();
+      $('*').unbind('click', updateTemplateList);
+      $('*').unbind('click', turnOffLinks);
+      $('body').removeClass('jpi_on');
+      jpi_on = false;
 
     } else { // Turn ON
       
-      $('body').addClass('jpi_on')
-      
-      $('*').click(updateTemplateList)
-      
-      // Notify that partial identifier is on
-      $('body').append('<div class="' + jpi_message_box_class + '"></div>')
-      $(jpi_message_box_selector).html('Template Identifier On')
-      
+      $('body').addClass('jpi_on');
+      $('a, input[type=submit], button').click(turnOffLinks);
+      $('*').click(updateTemplateList);
+      display('Partial Identifier On');
       jpi_on = true
       
     }

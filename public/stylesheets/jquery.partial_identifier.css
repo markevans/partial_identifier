@@ -1,4 +1,4 @@
-.jpi_message_box {
+#_jpi_message_box {
   position: fixed;
   top: 0;
   left: 0;
@@ -9,22 +9,22 @@
   z-index: 1001;
 }
 
-.jpi_message_box ul {
+#_jpi_message_box ul {
   list-style-type: none;
   margin: 0;
 }
 
-.jpi_message_box li {
+#_jpi_message_box li {
   padding: 5px;
 }
 
-.jpi_message_box li a {
+#_jpi_message_box li a {
   display: block;
   padding: 5px;
   color: #fff;
 }
 
-.jpi_message_box li a:hover {
+#_jpi_message_box li a:hover {
   background-color: #eee;
   color: #88c;
 }
