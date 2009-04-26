@@ -7,11 +7,13 @@
   font-weight: bold;
   font-size: 20px;
   z-index: 1001;
+  padding:3px;
 }
 
 #_jpi_message_box ul {
   list-style-type: none;
   margin: 0;
+  padding:0;
 }
 
 #_jpi_message_box li {
