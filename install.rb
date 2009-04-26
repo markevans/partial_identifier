@@ -26,6 +26,7 @@ puts "**************"
 puts
 puts "If you have svn/git, you may want to add"
 puts "    #{PartialIdentifier::FILE_PATH.sub(RAILS_ROOT,'').sub(%r(^/),'')}"
+puts "    vendor/plugins/partial_identifier"
 puts " to your ignore file"
 puts
 puts "**************"
