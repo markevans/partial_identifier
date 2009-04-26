@@ -7,8 +7,6 @@ Wanted to quickly open one of those files in textmate?
 
 Now you can!! And it's easy peasy!
 
-The only requirement is that you're using [jquery](http://jquery.com/) in your rails app.
-
 
 Usage
 =====
@@ -30,9 +28,9 @@ Usage
 Notes
 =====
 - This only works in development mode, so won't interfere with anything on production
-- If you're using version control you will probably want to ignore these files as it's useful for your development only
-- It is unobtrusive to the page DOM until you activate it with Shift+Ctrl+P.
-- I found one of my sites actually broke when using it - it may not work for every site
+- If you're using version control you will probably want to ignore the created files as it's useful for your development only
+- It is fairly unobtrusive to the page DOM - it simply inserts invisible divs
+- It uses the bundled version of jquery if you don't already have it, otherwise uses the one you're using
 
 TODO
 ====
