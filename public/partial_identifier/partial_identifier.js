@@ -85,8 +85,8 @@
     
     if(jpi_on){ // Turn OFF
       
-      display('Partial Identifier Off');
-      $('#_jpi_message_box').hide('slow').remove();
+      display('Partial Identifier OFF');
+      $('#_jpi_message_box').fadeOut(3000, function(){$(this).remove()});
       $('*').unbind('click', updateTemplateList);
       $('*').unbind('click', turnOffLinks);
       $('body').removeClass('jpi_on');
@@ -97,7 +97,7 @@
       $('body').addClass('jpi_on');
       $('a, input[type=submit], button').click(turnOffLinks);
       $('*').click(updateTemplateList);
-      display('Partial Identifier On');
+      display('Partial Identifier ON');
       jpi_on = true
       
     }
