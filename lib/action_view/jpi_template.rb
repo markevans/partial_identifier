@@ -26,8 +26,8 @@ module ActionView
         result = start_div + file_contents + end_div
       end
       
-      # Rails since 2.3 or so uses a different way of caching (I think!!!) the views so cater for that here
-      defined?('EagerPath') ? result : (@source ||= result)
+      # Rails since 2.3 or so they use the :memoize method so cater for that here
+      defined?('Memoizable') ? result : (@source ||= result)
     end
 
   end
