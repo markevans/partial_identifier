@@ -1,13 +1,32 @@
-#_jpi_message_box {
+#_jpi_message_box,
+#_jpi_warning_message_box {
   position: fixed;
-  top: 0;
-  left: 0;
-  background: #c88;
   color: #fff;
   font-weight: bold;
   font-size: 20px;
   z-index: 1001;
-  padding:3px;
+  padding:10px;
+  opacity:0.8;
+  -moz-border-radius:7px;
+  -webkit-border-radius:7px;
+}
+
+#_jpi_message_box {
+  top: 0;
+  left: 0;
+  background: #c88;
+}
+
+#_jpi_warning_message_box {
+  top: 10;
+  left: 50%;
+  background: #000;
+}
+
+#_jpi_message_box h3 {
+  border-bottom: #fff dotted 2px;
+  padding-bottom:5px;
+  margin:0;
 }
 
 #_jpi_message_box ul {
